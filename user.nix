@@ -1,0 +1,4 @@
+# user.nix
+{
+  username = "nixos";
+}
