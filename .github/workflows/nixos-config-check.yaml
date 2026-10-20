@@ -72,7 +72,7 @@ jobs:
         with:
           extra-conf: ${{ env.nix-conf }}
 
-      - uses: cachix/cachix-action@v16
+      - uses: cachix/cachix-action@v17
         with:
           name: nix-community
           extraPullNames: nix-community
@@ -96,7 +96,7 @@ jobs:
         with:
           extra-conf: ${{ env.nix-conf }}
 
-      - uses: cachix/cachix-action@v16
+      - uses: cachix/cachix-action@v17
         with:
           name: nix-community
           extraPullNames: nix-community
