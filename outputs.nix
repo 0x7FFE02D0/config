@@ -7,9 +7,16 @@ let
   defaults = import ./lib/defaults.nix;
   flakeRoot = self;
 
-  overlays = import ./lib/overlay-loader.nix {
+  overlays = (import ./lib/overlay-loader.nix {
     inherit system defaults flakeRoot;
-  };
+  }) ++ [
+    (final: prev: {
+      heroic = (import inputs.nixpkgs-unstable {
+        inherit system;
+        config.allowUnfree = true;
+      }).heroic;
+    })
+  ];
 
   pkgs = import ./lib/pkgs.nix {
     nixpkgs = inputs.nixpkgs;
