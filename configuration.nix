@@ -29,6 +29,14 @@ in
     "flakes"
   ];
 
+  nix.settings.extra-substituters = [
+    "https://0x7ffe02d0.cachix.org"
+  ];
+
+  nix.settings.extra-trusted-public-keys = [
+    "0x7ffe02d0.cachix.org-1:Nql9zO2yOwJXsUIr6h7S7DM0xLX1AL81zxHm1P2uJWQ="
+  ];
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   nixpkgs.config.allowUnfree = true;
