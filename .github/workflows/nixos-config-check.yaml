@@ -98,11 +98,27 @@ jobs:
 
       - uses: cachix/cachix-action@v17
         with:
-          name: nix-community
+          name: 0x7ffe02d0
           extraPullNames: nix-community
+          skipPush: true
 
       - name: Build system configuration
         run: nix build '${{ env.flake }}#nixosConfigurations.${{ env.nixos-host }}.config.system.build.toplevel' --show-trace
+
+      - name: Upload system build to Cachix
+        if: >-
+          github.actor != 'dependabot[bot]' &&
+          (github.event_name != 'pull_request' ||
+           github.event.pull_request.head.repo.full_name == github.repository)
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        run: |
+          if [ -z "$CACHIX_AUTH_TOKEN" ]; then
+            echo "::error::CACHIX_AUTH_TOKEN is missing."
+            exit 1
+          fi
+
+          cachix push 0x7ffe02d0 "$(readlink -f result)"
 
   check:
     name: All Cachix checks
