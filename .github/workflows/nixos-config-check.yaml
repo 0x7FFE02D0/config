@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: DeterminateSystems/nix-installer-action@v20
+      - uses: DeterminateSystems/nix-installer-action@v23
 
       - name: Parse .nodes.root.inputs keys and include system
         id: set-matrix
@@ -68,7 +68,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: DeterminateSystems/nix-installer-action@v20
+      - uses: DeterminateSystems/nix-installer-action@v23
         with:
           extra-conf: ${{ env.nix-conf }}
 
@@ -92,7 +92,7 @@ jobs:
         with:
           hatchet-protocol: "holster"
 
-      - uses: DeterminateSystems/nix-installer-action@v20
+      - uses: DeterminateSystems/nix-installer-action@v23
         with:
           extra-conf: ${{ env.nix-conf }}
 
