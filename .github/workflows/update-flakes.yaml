@@ -62,17 +62,22 @@ jobs:
           pull-request-token: ${{ secrets.GH_TOKEN }}
           pull-request-author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           pull-request-branch-prefix: update-
-          automerge: true
+          # Auto-merge is enabled by the next step so it can add a co-author.
+          automerge: false
           delete-branch: true
 
-      # The upstream action only enables auto-merge when a PR is first created.
-      - name: Enable auto-merge for existing update PR
+      # Squash-merge with the repository owner as co-author, so update PRs
+      # count towards co-authored contributions.
+      - name: Enable auto-merge for update PR
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_REPO: ${{ github.repository }}
           UPDATE_BRANCH: update-${{ matrix.flake }}
+          CO_AUTHOR: 0x7FFE02D0 <343645231+0x7FFE02D0@users.noreply.github.com>
         run: |
           pr=$(gh pr list --head "$UPDATE_BRANCH" --base main --state open --json number --jq '.[0].number // empty')
           if [ -n "$pr" ]; then
-            gh pr merge "$pr" --auto --rebase
+            # PR titles wrap revisions in backticks; drop them from the commit subject.
+            title=$(gh pr view "$pr" --json title --jq '.title | gsub("`"; "")')
+            gh pr merge "$pr" --auto --squash --subject "$title (#$pr)" --body "Co-authored-by: $CO_AUTHOR"
           fi
