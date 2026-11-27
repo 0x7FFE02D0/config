@@ -66,14 +66,14 @@ jobs:
           automerge: false
           delete-branch: true
 
-      # Squash-merge with the repository owner as co-author, so update PRs
+      # Squash-merge with github-actions[bot] as co-author, so update PRs
       # count towards co-authored contributions.
       - name: Enable auto-merge for update PR
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_REPO: ${{ github.repository }}
           UPDATE_BRANCH: update-${{ matrix.flake }}
-          CO_AUTHOR: 0x7FFE02D0 <343645231+0x7FFE02D0@users.noreply.github.com>
+          CO_AUTHOR: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
         run: |
           pr=$(gh pr list --head "$UPDATE_BRANCH" --base main --state open --json number --jq '.[0].number // empty')
           if [ -n "$pr" ]; then
