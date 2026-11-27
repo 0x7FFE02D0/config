@@ -37,10 +37,7 @@
     programs.steam.platformOptimizations.enable = true;
     services.pipewire.lowLatency.enable = true;
 
-    programs.nix-index = {
-      enable = true;
-      package = inputs.nix-index.packages.${system}.default;
-    };
+    programs.nix-index.enable = true;
     programs.nix-index-database.comma.enable = true;
 
     environment.systemPackages = [ inputs.umu.packages.${system}.default ];

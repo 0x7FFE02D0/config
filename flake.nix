@@ -41,10 +41,6 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    nix-index = {
-      url = "github:nix-community/nix-index";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
