@@ -1,4 +1,5 @@
 # modules/audio.nix
+# PipeWire audio, replacing PulseAudio.
 { ... }:
 
 {

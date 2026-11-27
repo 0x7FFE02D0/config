@@ -1,4 +1,5 @@
 # modules/nix-ld.nix
+# Lets unpatched dynamically linked binaries find common libraries.
 { pkgs, ... }:
 
 {

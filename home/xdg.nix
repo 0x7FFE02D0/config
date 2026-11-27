@@ -1,5 +1,6 @@
 # home/xdg.nix
-{ pkgs, lib, ... }:
+# XDG user directories and default applications.
+{ ... }:
 
 {
   xdg = {
@@ -15,7 +16,7 @@
 
       defaultApplications = {
         "image/png" = [ "org.gnome.Loupe.desktop" ];
-        "application/pdf" = [ "org.gnome.Evince.desktop" ];
+        "application/pdf" = [ "org.gnome.Papers.desktop" ];
       };
     };
   };

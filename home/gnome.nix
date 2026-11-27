@@ -1,4 +1,5 @@
 # home/gnome.nix
+# GNOME Shell extensions and their dconf settings.
 {
   pkgs,
   ...
@@ -17,7 +18,6 @@
       blur-my-shell
       just-perfection
       app-hider
-      appindicator
       rounded-window-corners-reborn
       bluetooth-battery-meter
       reorder-workspaces

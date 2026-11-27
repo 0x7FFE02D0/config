@@ -1,4 +1,5 @@
 # overlays/spotify-patch.nix
+# Spotify with its forced dark mode flag disabled, so it follows the theme.
 final: prev: {
   spotify-patch = prev.spotify.overrideAttrs (oldAttrs: {
     postPatch = ''

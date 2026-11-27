@@ -1,4 +1,5 @@
 # modules/services/warp.nix
+# Cloudflare WARP daemon. Enable with services.cloudflare-warp-daemon.enable.
 {
   config,
   lib,

@@ -1,4 +1,6 @@
 # modules/default.nix
+# Imports every .nix file in modules/, passing each one only the
+# arguments it asks for.
 args@{ config, lib, ... }:
 
 let

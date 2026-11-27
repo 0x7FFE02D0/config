@@ -1,4 +1,5 @@
 # packages/default.nix
+# Custom packages, exposed as packages.<system>.<name>.
 { pkgs, ... }:
 
 {

@@ -1,4 +1,5 @@
 # modules/mount-google-drive.nix
+# Mounts the GNOME Online Accounts Google Drive at login.
 {
   config,
   pkgs,
@@ -34,7 +35,7 @@ let
   '';
 in
 {
-  environment.systemPackages = [ pkgs.gnome.gvfs ];
+  environment.systemPackages = [ pkgs.gvfs ];
 
   systemd.tmpfiles.rules = [
     "d ${home}/.local/bin 0755 ${username} users -"

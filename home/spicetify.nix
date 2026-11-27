@@ -1,4 +1,5 @@
 # home/spicetify.nix
+# Spotify theming and extensions through spicetify-nix.
 {
   pkgs,
   spicetify-nix,

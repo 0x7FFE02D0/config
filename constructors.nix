@@ -1,4 +1,5 @@
 # constructors.nix
+# Builds the NixOS system with Home Manager wired in for the configured user.
 {
   nixpkgs,
   pkgs,

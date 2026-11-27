@@ -1,4 +1,6 @@
 # home/default.nix
+# Imports every .nix file in home/ (except *.userChrome.nix fragments),
+# passing each one only the arguments it asks for.
 args@{ ... }:
 
 let

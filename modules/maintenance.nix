@@ -1,10 +1,14 @@
 # modules/maintenance.nix
+# Automatic upgrades, garbage collection and /etc/nixos snapshots.
 { ... }:
 
 {
   # Automatic system upgrade (no reboot)
+  # Without `flake`, autoUpgrade rebuilds from channels and /etc/nixos instead
+  # of this flake. The update workflow keeps flake.lock current on main.
   system.autoUpgrade = {
     enable = true;
+    flake = "github:0x7FFE02D0/config#nixos";
     allowReboot = false;
   };
 

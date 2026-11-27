@@ -1,4 +1,6 @@
 # modules/scripts/unzip.nix
+# Adds `unzip all`, which extracts every .zip in the current directory
+# into a folder of the same name.
 { lib, ... }:
 
 {

@@ -1,5 +1,6 @@
 # home/shell.nix
-{ lib, ... }:
+# Bash aliases.
+{ ... }:
 
 {
   programs.bash = {
@@ -8,8 +9,9 @@
       gs = "git status";
       gpull = "git pull";
       gpush = "git push";
-      rebuild = "sudo nixos-rebuild switch --flake /etc/nixos";
-      hms = "home-manager switch --flake ~/.config/home-manager";
+      # install.sh clones the flake to ~/config. Home Manager runs as a NixOS
+      # module here, so this rebuild also applies the home configuration.
+      rebuild = "sudo nixos-rebuild switch --flake ~/config#nixos";
     };
   };
 }

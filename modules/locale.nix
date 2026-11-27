@@ -1,4 +1,5 @@
 # modules/locale.nix
+# UK time zone, locale and console keymap.
 { ... }:
 
 {

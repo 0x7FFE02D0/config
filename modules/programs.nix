@@ -1,4 +1,5 @@
 # modules/programs.nix
+# System packages, Flatpak, GnuPG agent and GNOME integration.
 { pkgs, ... }:
 
 {

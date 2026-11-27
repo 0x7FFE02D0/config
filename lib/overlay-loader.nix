@@ -1,4 +1,6 @@
 # lib/overlay-loader.nix
+# Loads the overlays named in lib/defaults.nix. Overlays that take a
+# `system` argument get it applied first.
 {
   system,
   defaults,

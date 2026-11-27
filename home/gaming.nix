@@ -1,4 +1,5 @@
 # home/gaming.nix
+# User-level gaming tools and Vulkan driver choice.
 { pkgs, ... }:
 
 {

@@ -1,4 +1,5 @@
 # modules/gaming.nix
+# Steam, GameMode and AMD graphics drivers.
 { pkgs, ... }:
 
 {

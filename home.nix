@@ -1,4 +1,5 @@
 # home.nix
+# Home Manager entry point for the user defined in user.nix.
 {
   pkgs,
   lib,

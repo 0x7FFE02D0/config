@@ -1,4 +1,5 @@
 # overlays/newReleases.nix
+# Packages the New Releases custom app from the spicetify CLI repository.
 system: self: super: {
   newReleases = super.stdenv.mkDerivation {
     name = "newReleases";

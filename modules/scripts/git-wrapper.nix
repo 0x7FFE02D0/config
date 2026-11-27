@@ -1,4 +1,6 @@
 # modules/scripts/git-wrapper.nix
+# Adds `git pull all` (pull every repo in the current directory) and
+# `git pull url` (list their remotes). Other git commands pass through.
 { lib, ... }:
 
 {

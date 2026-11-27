@@ -1,4 +1,6 @@
 # home/firefox-overrides.userChrome.nix
+# Extra userChrome.css appended in firefox.nix: a compact grid for the
+# extensions panel.
 ''
   #unified-extensions-panel #unified-extensions-view {
     width: 100% !important;

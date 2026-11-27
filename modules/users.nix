@@ -1,4 +1,5 @@
 # modules/users.nix
+# The main user account and its groups.
 { user, ... }:
 
 {

@@ -1,5 +1,6 @@
 # modules/scripts/default.nix
-{ lib, pkgs, ... }:
+# Bash function overrides for everyday commands.
+{ ... }:
 
 {
   imports = [

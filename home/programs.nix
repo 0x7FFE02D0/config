@@ -1,4 +1,5 @@
 # home/programs.nix
+# Desktop applications installed for the user.
 { pkgs, ... }:
 
 {

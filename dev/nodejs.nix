@@ -1,11 +1,12 @@
 # dev/nodejs.nix
+# Node.js development shell. Override `nodeVersion` to pick another Node.js.
 { pkgs, nodeVersion ? pkgs.nodejs_24 }:
 
 pkgs.mkShell {
-  buildInputs = [
+  # npm ships with Node.js itself.
+  packages = [
     nodeVersion
-    pkgs.nodePackages.npm
-    pkgs.nodePackages.yarn
+    pkgs.yarn
   ];
 
   shellHook = ''

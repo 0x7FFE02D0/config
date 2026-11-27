@@ -1,4 +1,5 @@
 # overlays/catppuccin.nix
+# Bundles the patched Spotify binary with the Catppuccin spicetify theme.
 final: prev: {
   spicetify-catppuccin = prev.spicetify-catppuccin.overrideAttrs (oldAttrs: {
     installPhase = oldAttrs.installPhase + ''

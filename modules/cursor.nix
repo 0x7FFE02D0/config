@@ -1,4 +1,5 @@
 # modules/cursor.nix
+# Installs the Cursor editor with a desktop entry.
 { pkgs, ... }:
 
 {

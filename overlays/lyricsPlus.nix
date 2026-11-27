@@ -1,4 +1,5 @@
 # overlays/lyricsPlus.nix
+# Packages the Lyrics Plus custom app from the spicetify CLI repository.
 system: self: super: {
   lyricsPlus = super.stdenv.mkDerivation {
     name = "lyricsPlus";

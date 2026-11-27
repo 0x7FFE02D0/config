@@ -1,4 +1,5 @@
 # modules/networking.nix
+# Hostname, NetworkManager and firewall.
 { lib, ... }:
 
 {

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 # install.sh
+# Clones this flake, adopts the machine's hardware configuration and user name,
+# then rebuilds NixOS from it. Safe to re-run.
 set -euo pipefail
 
 RED='\033[1;31m' GREEN='\033[1;32m' YELLOW='\033[1;33m' BLUE='\033[1;34m' NC='\033[0m'
@@ -9,6 +11,7 @@ REPO_URL="https://github.com/0x7FFE02D0/config.git"
 REPO_BRANCH="main"
 HOST="nixos"
 REPO_DIR="$(basename "$REPO_URL" .git)"
+# Enables flakes for this script only, without editing /etc/nixos.
 export NIX_CONFIG="experimental-features = nix-command flakes"
 
 [ -e /etc/NIXOS ] || { say "$RED" "This script only runs on NixOS."; exit 1; }

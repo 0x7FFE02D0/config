@@ -1,10 +1,6 @@
 # modules/services/default.nix
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+# Custom service modules.
+{ ... }:
 
 {
   imports = [
