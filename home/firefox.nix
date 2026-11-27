@@ -16,6 +16,9 @@ in
     isDefault = true;
     id = 0;
 
+    extensions.force = true;
+    extensions.packages = with pkgs.nur.repos.rycee.firefox-addons; [ ublock-origin ];
+
     # Inject GNOME visual theme and override snippets
     userChrome = ''
       @import "firefox-gnome-theme/userChrome.css";

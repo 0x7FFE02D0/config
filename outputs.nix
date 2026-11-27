@@ -10,6 +10,7 @@ let
   overlays = (import ./lib/overlay-loader.nix {
     inherit system defaults flakeRoot;
   }) ++ [
+    inputs.nur.overlays.default
     (final: prev: {
       heroic = (import inputs.nixpkgs-unstable {
         inherit system;
@@ -52,7 +53,7 @@ let
       overlays
       baseModules
       ;
-    extraModules = chaoticModules;
+    extraModules = chaoticModules ++ import ./flake-modules.nix { inherit inputs system; };
   };
 
   overlayPkgsAttrs = builtins.listToAttrs (
@@ -71,6 +72,32 @@ let
 
 in
 {
+  perSystem =
+    { config, ... }:
+    {
+      treefmt = {
+        projectRootFile = "flake.nix";
+        programs.nixfmt.enable = true;
+        # Formatting is checked by the pre-commit hook, not by `nix flake check`.
+        flakeCheck = false;
+      };
+
+      pre-commit = {
+        check.enable = false;
+        settings.hooks.treefmt = {
+          enable = true;
+          package = config.treefmt.build.wrapper;
+        };
+      };
+
+      devShells = import ./dev/default.nix { inherit pkgs; } // {
+        default = pkgs.mkShell {
+          shellHook = config.pre-commit.installationScript;
+          packages = [ config.treefmt.build.wrapper ];
+        };
+      };
+    };
+
   flake = {
     nixosConfigurations.nixos = mkConfig;
 
@@ -80,7 +107,6 @@ in
     nixosModules.default = ./configuration.nix;
     homeManagerModules.default = ./home.nix;
 
-    devShells.${system} = import ./dev/default.nix { inherit pkgs; };
 
     lib.mkSystem = constructors.mkSystem;
   };
