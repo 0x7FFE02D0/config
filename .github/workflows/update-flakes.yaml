@@ -3,7 +3,7 @@ name: Update Flakes
 
 on:
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '23,53 * * * *'
   workflow_dispatch:
 
 concurrency:
@@ -36,7 +36,6 @@ jobs:
     needs: get-flake-inputs
     strategy:
       fail-fast: false
-      max-parallel: 1
       matrix: ${{ fromJson(needs.get-flake-inputs.outputs.flake-inputs) }}
     steps:
       - uses: actions/checkout@v7
