@@ -30,7 +30,6 @@ let
     ./modules/boot.nix
     (import ./configuration.nix)
     ./hardware-configuration.nix
-    ./disko.nix
   ];
 
   chaoticModules = with inputs.chaotic.nixosModules; [
