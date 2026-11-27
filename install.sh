@@ -1,67 +1,37 @@
-# install.sh
 #!/usr/bin/env bash
-
+# install.sh
 set -euo pipefail
 
-# Colour definitions (bold included)
-RED='\033[1;31m'
-GREEN='\033[1;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[1;34m'
-MAGENTA='\033[1;35m'
-CYAN='\033[1;36m'
-NC='\033[0m' # No Colour
+RED='\033[1;31m' GREEN='\033[1;32m' YELLOW='\033[1;33m' BLUE='\033[1;34m' NC='\033[0m'
+say() { printf "${1}%s${NC}\n" "$2"; }
 
-# Configuration
 REPO_URL="https://github.com/0x7FFE02D0/config.git"
 REPO_BRANCH="main"
-HOSTNAME="nixos"
+HOST="nixos"
+REPO_DIR="$(basename "$REPO_URL" .git)"
+export NIX_CONFIG="experimental-features = nix-command flakes"
 
-CURRENT_USER=$(whoami)
+[ -e /etc/NIXOS ] || { say "$RED" "This script only runs on NixOS."; exit 1; }
+[ "$(id -u)" -ne 0 ] || { say "$RED" "Run as your normal user, not root."; exit 1; }
 
-# Step 1: Enable flakes support
-if [ -f "/etc/nixos/configuration.nix" ]; then
-  if ! grep -q 'extra-experimental-features' /etc/nixos/configuration.nix; then
-    printf "${YELLOW}Adding flake support before system.stateVersion...${NC}\n"
-    sudo sed -i '/system\.stateVersion/ i nix.settings.extra-experimental-features = [ "nix-command" "flakes" ];\n' /etc/nixos/configuration.nix
-    printf "${BLUE}Rebuilding system configuration...${NC}\n"
-    sudo nixos-rebuild switch
-  else
-    printf "${GREEN}Flake support already declared in configuration.nix.${NC}\n"
-  fi
+if [ -d "$REPO_DIR/.git" ]; then
+  say "$YELLOW" "$REPO_DIR already exists; pulling latest $REPO_BRANCH."
+  nix shell nixpkgs#git -c git -C "$REPO_DIR" pull --ff-only
 else
-  mkdir -p ~/.config/nix
-  printf "${YELLOW}Enabling flakes in user config (~/.config/nix/nix.conf)...${NC}\n"
-  echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+  say "$BLUE" "Cloning $REPO_URL ($REPO_BRANCH)."
+  nix shell nixpkgs#git -c git clone -b "$REPO_BRANCH" "$REPO_URL" "$REPO_DIR"
 fi
 
-# Step 2: Clone the repo using nix-shell
-REPO_NAME="$(basename "$REPO_URL" .git)"
-printf "${CYAN}Cloning repository ${REPO_URL} (branch: ${REPO_BRANCH}) into ${REPO_NAME}...${NC}\n"
-nix-shell -p git --run "git clone -b $REPO_BRANCH $REPO_URL"
-
-# Step 3: Replace hardware-configuration.nix
-SOURCE_HW_CONFIG="/etc/nixos/hardware-configuration.nix"
-TARGET_HW_CONFIG="$REPO_NAME/hardware-configuration.nix"
-if [ -f "$SOURCE_HW_CONFIG" ]; then
-  printf "${YELLOW}Replacing hardware-configuration.nix in repo with system version...${NC}\n"
-  cp "$SOURCE_HW_CONFIG" "$TARGET_HW_CONFIG"
+if [ -f /etc/nixos/hardware-configuration.nix ]; then
+  say "$YELLOW" "Using this machine's hardware-configuration.nix."
+  cp /etc/nixos/hardware-configuration.nix "$REPO_DIR/hardware-configuration.nix"
 else
-  printf "${RED}Warning: /etc/nixos/hardware-configuration.nix not found. Skipping update.${NC}\n"
+  say "$RED" "/etc/nixos/hardware-configuration.nix not found; keeping the repo's copy."
 fi
 
-# Step 4: Update username in user.nix
-USER_FILE="$REPO_NAME/user.nix"
-if grep -q 'username = "nixos";' "$USER_FILE"; then
-  printf "${MAGENTA}Updating username in $USER_FILE to '${CURRENT_USER}'...${NC}\n"
-  sed -i "s/username = \"nixos\";/username = \"$CURRENT_USER\";/" "$USER_FILE"
-else
-  printf "${YELLOW}No 'username = \"nixos\";' found in $USER_FILE. Skipping update.${NC}\n"
-fi
+sed -i "s/username = \"[^\"]*\";/username = \"$(id -un)\";/" "$REPO_DIR/user.nix"
 
-# Step 5: Rebuild system using flake
-cd "$REPO_NAME"
-printf "${BLUE}Rebuilding system from flake at ${REPO_NAME}...${NC}\n"
-sudo nixos-rebuild switch --flake "$PWD#$HOSTNAME"
+say "$BLUE" "Rebuilding from $REPO_DIR#$HOST."
+sudo --preserve-env=NIX_CONFIG nixos-rebuild switch --flake "$PWD/$REPO_DIR#$HOST"
 
-printf "${GREEN}System rebuilt successfully from flake!${NC}\n"
+say "$GREEN" "System rebuilt successfully."
